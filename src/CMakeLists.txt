@@ -147,14 +147,14 @@ add_subdirectory(systems)
 # project-wide wrapper
 add_mp_units_module(mp-units mp-units DEPENDENCIES mp-units::core mp-units::systems MODULE_INTERFACE_UNIT mp-units.cpp)
 
-# local build
-export(EXPORT mp-unitsTargets NAMESPACE mp-units::)
-configure_file("mp-unitsConfig.cmake" "." COPYONLY)
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(mp-unitsConfigVersion.cmake COMPATIBILITY SameMajorVersion)
-
-# installation
 if(${projectPrefix}INSTALL)
+    # local build
+    export(EXPORT mp-unitsTargets NAMESPACE mp-units::)
+    configure_file("mp-unitsConfig.cmake" "." COPYONLY)
+    include(CMakePackageConfigHelpers)
+    write_basic_package_version_file(mp-unitsConfigVersion.cmake COMPATIBILITY SameMajorVersion)
+
+    # installation
     install(EXPORT mp-unitsTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mp-units NAMESPACE mp-units::)
 
     install(FILES mp-unitsConfig.cmake ${CMAKE_CURRENT_BINARY_DIR}/mp-unitsConfigVersion.cmake
