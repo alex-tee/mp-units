@@ -39,9 +39,11 @@ check_libcxx_in_use(${projectPrefix}LIBCXX)
 # project build options
 option(${projectPrefix}BUILD_AS_SYSTEM_HEADERS "Export library as system headers" OFF)
 option(${projectPrefix}BUILD_CXX_MODULES "Add C++ modules to the list of default targets" OFF)
+option(${projectPrefix}INSTALL "Install the library" ON)
 
 message(STATUS "${projectPrefix}BUILD_AS_SYSTEM_HEADERS: ${${projectPrefix}BUILD_AS_SYSTEM_HEADERS}")
 message(STATUS "${projectPrefix}BUILD_CXX_MODULES: ${${projectPrefix}BUILD_CXX_MODULES}")
+message(STATUS "${projectPrefix}INSTALL: ${${projectPrefix}INSTALL}")
 
 if(${projectPrefix}BUILD_AS_SYSTEM_HEADERS)
     set(${projectPrefix}_AS_SYSTEM SYSTEM)
@@ -142,8 +144,10 @@ include(CMakePackageConfigHelpers)
 write_basic_package_version_file(mp-unitsConfigVersion.cmake COMPATIBILITY SameMajorVersion)
 
 # installation
-install(EXPORT mp-unitsTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mp-units NAMESPACE mp-units::)
+if(${projectPrefix}INSTALL)
+    install(EXPORT mp-unitsTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mp-units NAMESPACE mp-units::)
 
-install(FILES mp-unitsConfig.cmake ${CMAKE_CURRENT_BINARY_DIR}/mp-unitsConfigVersion.cmake
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mp-units
-)
+    install(FILES mp-unitsConfig.cmake ${CMAKE_CURRENT_BINARY_DIR}/mp-unitsConfigVersion.cmake
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mp-units
+    )
+endif()
